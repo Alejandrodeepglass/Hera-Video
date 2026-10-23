@@ -1,0 +1,17 @@
+services:
+  studio:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1-mini}
+      STUDIO_PASSWORD: ${STUDIO_PASSWORD:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-0}
+      TRUST_PROXY: ${TRUST_PROXY:-0}
+    volumes:
+      - studio-data:/app/data
+    shm_size: 1gb
+volumes:
+  studio-data:

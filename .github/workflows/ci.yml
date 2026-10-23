@@ -1,0 +1,18 @@
+name: Hera Video checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  application:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production Docker image
+        run: docker build -t hera-video:ci .
+      - name: API, persistence and real video exports
+        run: docker run --rm --shm-size=1g hera-video:ci npm test
+      - name: Browser editor workflow
+        run: docker run --rm --shm-size=1g hera-video:ci npm run test:browser
