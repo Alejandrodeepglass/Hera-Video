@@ -27,11 +27,10 @@ HOST=0.0.0.0
 DATA_DIR=/app/data
 COOKIE_SECURE=1
 TRUST_PROXY=1
-RAILWAY_RUN_UID=0
 STUDIO_PASSWORD=REEMPLAZA_ESTO_POR_TU_CONTRASENA_PRIVADA
 ```
 
-`RAILWAY_RUN_UID=0` permite inicializar el volumen que Railway monta como root; el entrypoint cambia su propietario y ejecuta Node como usuario `node` sin privilegios. No introduzcas `OPENAI_API_KEY` todavía. No necesitas crear `SESSION_SECRET`: se genera y conserva en el disco. No cambies PORT; el servidor admite el que asigna Railway.
+El entrypoint inicializa automáticamente el volumen que Railway monta como root, cambia su propietario y ejecuta Node como usuario `node` sin privilegios. No introduzcas `OPENAI_API_KEY` todavía. No necesitas crear `SESSION_SECRET`: se genera y conserva en el disco. No cambies PORT; el servidor admite el que asigna Railway.
 
 4. En el lienzo del proyecto, clic derecho → **Create Volume / Volume**. Conéctalo al servicio **Hera-Video** y establece **Mount Path = /app/data**. Es imprescindible para no perder proyectos y recursos. Usa una sola réplica. En **Settings → Deploy**, establece **Healthcheck Path = /api/health** y, si se muestran límites, permite al menos 2 vCPU / 4 GB para comenzar. Son límites máximos; Railway factura el uso real. No actives suspensión automática mientras se renderizan trabajos.
 5. Pulsa **Deploy / Apply Changes** y espera a que esté **Active**. Después abre **Settings → Networking → Public Networking → Generate Domain**; usa el puerto del servicio (3000 si el panel pide uno y no ha asignado otro). Se genera una dirección `https://…up.railway.app` con certificado automático. No hace falta comprar un dominio.

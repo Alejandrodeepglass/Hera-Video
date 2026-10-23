@@ -19,7 +19,7 @@ RUN --mount=type=secret,id=build_proxy --mount=type=secret,id=build_ca,mode=0444
     npm ci --no-audit --no-fund
 COPY . .
 RUN npm run build && mkdir -p /app/data && chmod 755 /app/scripts/docker-entrypoint.sh && chown -R node:node /app
-USER node
+USER root
 ENV HOST=0.0.0.0 PORT=3000 CHROME_PATH=/usr/bin/chromium DATA_DIR=/app/data
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s CMD node -e "fetch('http://127.0.0.1:'+process.env.PORT+'/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
